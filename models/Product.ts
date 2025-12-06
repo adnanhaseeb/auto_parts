@@ -1,21 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface IProduct extends mongoose.Document {
-  name: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  category: string;
-  inStock: boolean;
-  isNew?: boolean;
-  isSale?: boolean;
-  description?: string;
-  specifications?: Record<string, any>;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-const ProductSchema = new mongoose.Schema<IProduct>({
+const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Product name is required'],
@@ -57,8 +42,7 @@ const ProductSchema = new mongoose.Schema<IProduct>({
     maxlength: [1000, 'Description cannot exceed 1000 characters']
   },
   specifications: {
-    type: Map,
-    of: mongoose.Schema.Types.Mixed
+    type: Object
   }
 }, {
   timestamps: true
@@ -69,4 +53,6 @@ ProductSchema.index({ category: 1 });
 ProductSchema.index({ inStock: 1 });
 ProductSchema.index({ name: 'text', description: 'text' });
 
-export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
+
+export default Product;

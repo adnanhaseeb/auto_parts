@@ -1,5 +1,5 @@
 import { Heart, ShoppingBag, Eye } from "lucide-react";
-import { Product } from "@/contexts/ProductContext";
+import { Product } from "@/src/contexts/ProductContext";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {

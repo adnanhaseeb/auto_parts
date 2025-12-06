@@ -1,5 +1,5 @@
 import { Package, Plus, LayoutDashboard, Settings, LogOut } from 'lucide-react';
-import { NavLink } from '@/components/NavLink';
+import NavLink from '@/src/components/NavLink';
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
   SidebarHeader,
   SidebarFooter,
-} from '@/components/ui/sidebar';
+} from '@/src/components/ui/sidebar';
 
 const menuItems = [
   { title: 'Dashboard', url: '/admin', icon: LayoutDashboard },

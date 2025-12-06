@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Filter, LayoutGrid, List, Grid2X2, Grid3X3 } from "lucide-react";
-import { useProducts } from "@/contexts/ProductContext";
+import { useProducts } from "@/src/contexts/ProductContext";
 import ProductCard from "./ProductCard";
 import {
   Select,
@@ -8,8 +8,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "@/src/components/ui/select";
+import { Button } from "@/src/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type GridLayout = "list" | "2" | "3" | "4" | "5";

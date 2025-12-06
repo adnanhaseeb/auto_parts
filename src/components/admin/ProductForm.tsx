@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useProducts, Product } from '@/contexts/ProductContext';
+import { Button } from '@/src/components/ui/button';
+import { Input } from '@/src/components/ui/input';
+import { Label } from '@/src/components/ui/label';
+import { Textarea } from '@/src/components/ui/textarea';
+import { Switch } from '@/src/components/ui/switch';
+import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
+import { useProducts, Product } from '@/src/contexts/ProductContext';
 import { toast } from 'sonner';
 
 interface ProductFormProps {

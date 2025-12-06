@@ -1,8 +1,10 @@
-import AnnouncementBanner from "@/components/layout/AnnouncementBanner";
-import Header from "@/components/layout/Header";
-import Navigation from "@/components/layout/Navigation";
-import Footer from "@/components/layout/Footer";
-import ProductGrid from "@/components/products/ProductGrid";
+'use client'
+
+import AnnouncementBanner from "@/src/components/layout/AnnouncementBanner";
+import Header from "@/src/components/layout/Header";
+import Navigation from "@/src/components/layout/Navigation";
+import Footer from "@/src/components/layout/Footer";
+import ProductGrid from "@/src/components/products/ProductGrid";
 
 export default function HomePage() {
   return (
