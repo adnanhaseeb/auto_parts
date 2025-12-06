@@ -33,7 +33,7 @@ export function ProductTable() {
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -52,7 +52,7 @@ export function ProductTable() {
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search by name, SKU, or category..."
+            placeholder="Search by name, brand, or category..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -73,7 +73,7 @@ export function ProductTable() {
             <TableRow className="bg-muted/50">
               <TableHead className="w-16">Image</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>SKU</TableHead>
+              <TableHead>Brand</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Status</TableHead>
@@ -98,7 +98,7 @@ export function ProductTable() {
                     />
                   </TableCell>
                   <TableCell className="font-medium">{product.name}</TableCell>
-                  <TableCell className="text-muted-foreground">{product.sku}</TableCell>
+                  <TableCell className="text-muted-foreground">{product.brand}</TableCell>
                   <TableCell>{product.category}</TableCell>
                   <TableCell>
                     <div className="flex flex-col">

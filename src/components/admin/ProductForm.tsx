@@ -24,8 +24,8 @@ export function ProductForm({ product, isEditing = false }: ProductFormProps) {
     originalPrice: '',
     image: '',
     category: '',
+    brand: '',
     inStock: true,
-    sku: '',
     description: '',
   });
 
@@ -37,8 +37,8 @@ export function ProductForm({ product, isEditing = false }: ProductFormProps) {
         originalPrice: product.originalPrice?.toString() || '',
         image: product.image,
         category: product.category,
+        brand: product.brand,
         inStock: product.inStock,
-        sku: product.sku,
         description: product.description || '',
       });
     }
@@ -47,20 +47,20 @@ export function ProductForm({ product, isEditing = false }: ProductFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.price || !formData.sku || !formData.category) {
+    if (!formData.name || !formData.price || !formData.brand || !formData.category) {
       toast.error('Please fill in all required fields');
       return;
     }
 
     const productData = {
       name: formData.name,
+      description: formData.description,
       price: parseFloat(formData.price),
       originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
       image: formData.image || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop',
       category: formData.category,
+      brand: formData.brand,
       inStock: formData.inStock,
-      sku: formData.sku,
-      description: formData.description,
     };
 
     if (isEditing && product) {
@@ -97,12 +97,12 @@ export function ProductForm({ product, isEditing = false }: ProductFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="sku">SKU *</Label>
+              <Label htmlFor="brand">Brand *</Label>
               <Input
-                id="sku"
-                value={formData.sku}
-                onChange={(e) => handleChange('sku', e.target.value)}
-                placeholder="e.g., SP-001"
+                id="brand"
+                value={formData.brand}
+                onChange={(e) => handleChange('brand', e.target.value)}
+                placeholder="e.g., Bosch, Denso, NGK"
               />
             </div>
 

@@ -1,154 +1,161 @@
 'use client';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 export interface Product {
+  _id?: string;
   id: string;
   name: string;
+  description: string;
   price: number;
   originalPrice?: number;
   image: string;
   category: string;
+  brand: string;
   inStock: boolean;
-  sku: string;
-  description?: string;
+  featured?: boolean;
+  rating?: number;
+  reviews?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface ProductContextType {
   products: Product[];
-  addProduct: (product: Omit<Product, 'id'>) => void;
-  updateProduct: (id: string, product: Partial<Product>) => void;
-  deleteProduct: (id: string) => void;
+  loading: boolean;
+  addProduct: (product: Omit<Product, 'id' | '_id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateProduct: (id: string, product: Partial<Product>) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
   getProduct: (id: string) => Product | undefined;
+  refreshProducts: () => Promise<void>;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
-const initialProducts: Product[] = [
-  {
-    id: '1',
-    name: 'Denso Iridium Spark Plug',
-    price: 850,
-    originalPrice: 1200,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop',
-    category: 'Engine Parts',
-    inStock: true,
-    sku: 'SP-001',
-    description: 'High-quality iridium spark plug for better fuel efficiency'
-  },
-  {
-    id: '2',
-    name: 'Bosch Brake Pads Set',
-    price: 3500,
-    originalPrice: 4200,
-    image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=300&fit=crop',
-    category: 'Brake System',
-    inStock: true,
-    sku: 'BP-002',
-    description: 'Premium brake pads for superior stopping power'
-  },
-  {
-    id: '3',
-    name: 'NGK Ignition Coil',
-    price: 2800,
-    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=300&h=300&fit=crop',
-    category: 'Electrical',
-    inStock: true,
-    sku: 'IC-003',
-    description: 'OEM quality ignition coil for reliable performance'
-  },
-  {
-    id: '4',
-    name: 'Mann Oil Filter',
-    price: 450,
-    originalPrice: 600,
-    image: 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=300&h=300&fit=crop',
-    category: 'Filters',
-    inStock: false,
-    sku: 'OF-004',
-    description: 'Premium oil filter for engine protection'
-  },
-  {
-    id: '5',
-    name: 'Timing Belt Kit',
-    price: 8500,
-    image: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=300&h=300&fit=crop',
-    category: 'Engine Parts',
-    inStock: true,
-    sku: 'TB-005',
-    description: 'Complete timing belt kit with tensioner and pulleys'
-  },
-  {
-    id: '6',
-    name: 'LED Headlight Bulb H4',
-    price: 1800,
-    originalPrice: 2500,
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300&h=300&fit=crop',
-    category: 'Lighting',
-    inStock: true,
-    sku: 'HL-006',
-    description: 'Bright LED headlight bulbs with 6000K color temperature'
-  },
-  {
-    id: '7',
-    name: 'Radiator Coolant 4L',
-    price: 1200,
-    image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=300&h=300&fit=crop',
-    category: 'Fluids',
-    inStock: true,
-    sku: 'RC-007',
-    description: 'Long-life radiator coolant for all vehicles'
-  },
-  {
-    id: '8',
-    name: 'Wiper Blade Set',
-    price: 650,
-    originalPrice: 800,
-    image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=300&h=300&fit=crop',
-    category: 'Accessories',
-    inStock: true,
-    sku: 'WB-008',
-    description: 'Frameless wiper blades for clear visibility'
-  },
-];
+export function ProductProvider({ children }: { children: ReactNode }) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export const ProductProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-
-  const addProduct = (product: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      ...product,
-      id: Date.now().toString(),
-    };
-    setProducts(prev => [...prev, newProduct]);
+  // Fetch all products
+  const refreshProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/products');
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data);
+      } else {
+        console.error('Failed to fetch products');
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const updateProduct = (id: string, updatedFields: Partial<Product>) => {
-    setProducts(prev =>
-      prev.map(product =>
-        product.id === id ? { ...product, ...updatedFields } : product
-      )
-    );
+  // Add a new product
+  const addProduct = async (productData: Omit<Product, 'id' | '_id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...productData,
+          id: Date.now().toString(), // Generate unique ID
+        }),
+      });
+
+      if (response.ok) {
+        const newProduct = await response.json();
+        setProducts(prev => [...prev, newProduct]);
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to add product');
+      }
+    } catch (error) {
+      console.error('Error adding product:', error);
+      throw error;
+    }
   };
 
-  const deleteProduct = (id: string) => {
-    setProducts(prev => prev.filter(product => product.id !== id));
+  // Update a product
+  const updateProduct = async (id: string, productData: Partial<Product>) => {
+    try {
+      const response = await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (response.ok) {
+        const updatedProduct = await response.json();
+        setProducts(prev => 
+          prev.map(p => p.id === id ? updatedProduct : p)
+        );
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to update product');
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+      throw error;
+    }
   };
 
-  const getProduct = (id: string) => {
-    return products.find(product => product.id === id);
+  // Delete a product
+  const deleteProduct = async (id: string) => {
+    try {
+      const response = await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setProducts(prev => prev.filter(p => p.id !== id));
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete product');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      throw error;
+    }
+  };
+
+  // Get a specific product
+  const getProduct = (id: string): Product | undefined => {
+    return products.find(p => p.id === id);
+  };
+
+  // Load products on mount
+  useEffect(() => {
+    refreshProducts();
+  }, []);
+
+  const value: ProductContextType = {
+    products,
+    loading,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    getProduct,
+    refreshProducts,
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, getProduct }}>
+    <ProductContext.Provider value={value}>
       {children}
     </ProductContext.Provider>
   );
-};
+}
 
-export const useProducts = () => {
+export function useProducts() {
   const context = useContext(ProductContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useProducts must be used within a ProductProvider');
   }
   return context;
-};
+}
