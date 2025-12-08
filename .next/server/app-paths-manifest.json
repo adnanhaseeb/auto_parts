@@ -1,7 +1,5 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/products/[id]/route": "app/api/products/[id]/route.js",
-  "/api/seed/route": "app/api/seed/route.js",
-  "/api/products/route": "app/api/products/route.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/auth/signup/page": "app/auth/signup/page.js",
+  "/auth/login/page": "app/auth/login/page.js"
 }
