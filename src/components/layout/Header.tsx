@@ -104,12 +104,12 @@ const Header = () => {
           ) : (
             <div className="hidden sm:flex items-center gap-2">
               <Link href="/auth/login">
-                <Button variant="outline" size="sm">
+                <Button variant="ghost" size="sm" className="text-header-foreground border border-header-foreground/20 hover:bg-header-foreground/10">
                   Sign In
                 </Button>
               </Link>
               <Link href="/auth/signup">
-                <Button size="sm">
+                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
                   Sign Up
                 </Button>
               </Link>
