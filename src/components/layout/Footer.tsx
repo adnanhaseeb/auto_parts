@@ -8,12 +8,22 @@ const Footer = () => {
           {/* About */}
           <div>
             <div className="bg-primary text-primary-foreground px-3 py-2 rounded font-bold text-lg inline-block mb-4">
-              SEHGALMOTORS<span className="text-xs">.PK</span>
+              Auto Parts
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Pakistan's largest online car accessories store. We provide genuine auto spare parts
-              and accessories for all car models at the best prices.
+              Your trusted online auto parts store. We provide genuine automotive spare parts
+              and accessories for all vehicle models at competitive prices.
             </p>
+            <div className="space-y-2 mt-4">
+              <div className="flex items-center gap-2 text-sm">
+                <Phone className="h-4 w-4" />
+                <span>1234567890</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Mail className="h-4 w-4" />
+                <span>abc@gmail.com</span>
+              </div>
+            </div>
             <div className="flex gap-4 mt-4">
               <a href="#" className="hover:text-primary transition-colors">
                 <Facebook className="h-5 w-5" />
@@ -87,11 +97,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 flex-shrink-0" />
-                <span>0311-1222357</span>
+                <span>1234567890</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 flex-shrink-0" />
-                <span>info@sehgalmotors.pk</span>
+                <span>abc@gmail.com</span>
               </li>
             </ul>
           </div>

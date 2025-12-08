@@ -24,7 +24,7 @@ const Header = () => {
         <a href="/" className="flex-shrink-0">
           <div className="flex items-center gap-2">
             <div className="bg-primary text-primary-foreground px-3 py-2 rounded font-bold text-xl">
-              SEHGALMOTORS<span className="text-sm">.PK</span>
+              Auto Parts
             </div>
           </div>
         </a>

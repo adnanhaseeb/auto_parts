@@ -9,14 +9,14 @@ const AnnouncementBanner = () => {
   return (
     <div className="bg-banner text-banner-foreground py-2 px-4 relative">
       <div className="container mx-auto text-center text-sm">
-        <span>Instant Shipping & Fast Delivery. Join our </span>
-        <a href="#" className="font-semibold underline hover:no-underline">
-          Whatsapp channel
+        <span>Fast Shipping & Quality Guaranteed. Contact us at </span>
+        <a href="mailto:abc@gmail.com" className="font-semibold underline hover:no-underline">
+          abc@gmail.com
         </a>
-        <span> for newly added products and discounts.</span>
+        <span> or call </span>
         <br className="sm:hidden" />
         <span className="block sm:inline sm:ml-1">
-          Contact 0311-1222357 for instant support.
+          <a href="tel:1234567890" className="font-semibold">1234567890</a> for instant support.
         </span>
       </div>
       <button
