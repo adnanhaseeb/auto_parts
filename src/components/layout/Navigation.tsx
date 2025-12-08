@@ -2,12 +2,21 @@ import { useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { categories } from "@/data/products";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+type NavItem = {
+  name: string;
+  href?: string;
+  slug?: string;
+  isHighlight?: boolean;
+};
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  const navItems = [
+  const navItems: NavItem[] = [
+    { name: "ALL PRODUCTS", href: "/products" },
     { name: "LED & LIGHTENING", slug: "led-lightening" },
     { name: "EXTERIOR", slug: "exterior" },
     { name: "INTERIOR", slug: "interior" },
@@ -25,6 +34,24 @@ const Navigation = () => {
         {/* Desktop Navigation */}
         <ul className="hidden lg:flex items-center justify-center">
           {navItems.map((item) => {
+            // Handle direct links (like "ALL PRODUCTS")
+            if (item.href) {
+              return (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "flex items-center gap-1 px-4 py-3 text-sm font-medium hover:text-primary transition-colors",
+                      item.isHighlight && "text-sale"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            }
+
+            // Handle category links
             const category = categories.find((c) => c.slug === item.slug);
             const hasSubmenu = category?.subcategories && category.subcategories.length > 0;
 
@@ -83,18 +110,31 @@ const Navigation = () => {
         {mobileMenuOpen && (
           <div className="lg:hidden bg-background text-foreground">
             <ul className="divide-y divide-border">
-              {navItems.map((item) => (
-                <li key={item.slug}>
-                  <a
-                    href={`/category/${item.slug}`}
-                    className={cn(
-                      "block px-4 py-3 hover:bg-secondary transition-colors",
-                      item.isHighlight && "text-sale font-medium"
-                    )}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </a>
+              {navItems.map((item, index) => (
+                <li key={item.slug || item.href || index}>
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "block px-4 py-3 hover:bg-secondary transition-colors",
+                        item.isHighlight && "text-sale font-medium"
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <a
+                      href={`/category/${item.slug}`}
+                      className={cn(
+                        "block px-4 py-3 hover:bg-secondary transition-colors",
+                        item.isHighlight && "text-sale font-medium"
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

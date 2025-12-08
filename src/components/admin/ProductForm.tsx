@@ -61,6 +61,10 @@ export function ProductForm({ product, isEditing = false }: ProductFormProps) {
       category: formData.category,
       brand: formData.brand,
       inStock: formData.inStock,
+      stockQuantity: 10, // Default stock quantity
+      featured: false,
+      rating: 0,
+      reviews: 0
     };
 
     if (isEditing && product) {

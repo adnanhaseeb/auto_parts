@@ -12,11 +12,12 @@ export interface Product {
   category: string;
   brand: string;
   inStock: boolean;
+  stockQuantity: number;
   featured?: boolean;
   rating?: number;
   reviews?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
 }
 
 interface ProductContextType {
@@ -42,7 +43,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
       const response = await fetch('/api/products');
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
+        setProducts(data.products || data); // Handle both old and new API response formats
       } else {
         console.error('Failed to fetch products');
       }
